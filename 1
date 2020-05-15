@@ -88,17 +88,25 @@ def is_DiffirentCheckWin(gamer):
 
         
 def Movie(available):
-    if CheckWin(Parity(parity))== True:
-        return 
-    if is_DiffirentCheckWin(Parity(parity))== True:
-        return 
-    else:
-        randmove=random.choice(available)
-        field[randmove]=Parity(parity)
-    
-        available.remove(randmove)
+    if parity%2==0:
+        gamer_move=int(input())-1
+        field[gamer_move]=Parity(parity)
+        available.remove(gamer_move)
         print_field(field)
         
+        
+    else:    
+        if CheckWin(Parity(parity))== True:
+            return 
+        if is_DiffirentCheckWin(Parity(parity))== True:
+            return 
+        else:
+            randmove=random.choice(available)
+            field[randmove]=Parity(parity)
+        
+            available.remove(randmove)
+            print_field(field)
+            
 while len(available)!=0:
     print('ход N ',parity, 'ходят ', Parity(parity),"\n")
     Movie(available)
