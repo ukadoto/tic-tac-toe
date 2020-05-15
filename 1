@@ -3,23 +3,21 @@ winner=0
 available=[0,1,2,3,4,5,6,7,8]
 
 
-
 def WinnerMessage(x):
     print('Линия победила. Победа за ',x)
-field = [ 1, 1, 1, 1, 1, 1, 1, 1, 1]
+field = [ '_', '_','_','_','_','_','_','_','_']
 
 
 def print_field(field):
     for i in range(3):
         print(field[i*3], field[i*3+1], field[i*3+2])
 
-
 line_index = [[0, 1,2], [3, 4,5], [6, 7, 8], [0, 3,6], [1, 4,7], [2, 5,8], [0, 4,8], [2, 4,6]]
 
 
 def get_line(index):
     return line_index[index]
-
+    
 def CheckLine(gamer):
     for i in range(8):
         line = get_line(i)
@@ -30,7 +28,7 @@ def CheckLine(gamer):
             return gamer
     else:
         return 0
-    
+        
 parity=0
 def Parity(parity):
     if parity%2==0:
@@ -53,16 +51,46 @@ def CheckWin(gamer):
                 return False
             else:
                 field[itog[0]]=gamer
+                available.remove(itog[0])
                 print_field(field)
                 return True
             
                 
     else:
         return False
-        
 
+
+def is_DiffirentCheckWin(gamer):
+        if gamer == 'x':
+            diffirent_player='0'
+        else:
+             diffirent_player='x'
+        for i in range(8):
+            line = get_line(i)
+            mylist = [field[cn] for cn in line]
+            
+            str1=' '.join(str(e) for e in mylist)
+             
+            if str1.count(diffirent_player)==2:
+                
+                C = list(set(line) - set(available))
+                itog=list(set(line)-set(C))
+                if len(itog)!=0:
+                    
+                    field[itog[0]]=gamer
+                    available.remove(itog[0])
+                    print_field(field)
+                    return True
+              
+        else:
+            return False
+    
+
+        
 def Movie(available):
     if CheckWin(Parity(parity))== True:
+        return 
+    if is_DiffirentCheckWin(Parity(parity))== True:
         return 
     else:
         randmove=random.choice(available)
@@ -70,12 +98,11 @@ def Movie(available):
     
         available.remove(randmove)
         print_field(field)
-    
-
-
+        
 while len(available)!=0:
     print('ход N ',parity, 'ходят ', Parity(parity),"\n")
     Movie(available)
+    print(available, '  available')
     #print(CheckLine(Parity(parity)))
     if CheckLine(Parity(parity))!=0:
         
